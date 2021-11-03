@@ -2,6 +2,7 @@ import { Container, Grid } from '@mui/material';
 import React from 'react';
 import chair from '../../../images/chair.png';
 import Calender from '../../Shared/Calender/Calender';
+
 const AppointmentHead = ({ date, setdate }) => {
     return (
         <Container>
