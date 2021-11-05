@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
+import useFirebase from '../../Hooks/useFirebase';
 
 const Register = () => {
     const [errorStatus, seterrorStatus] = useState(false)
@@ -36,7 +37,7 @@ const Register = () => {
     const onSubmit = data => {
         const { userEmail, userPassword, userConfirmedPass } = data;
         if (userPassword === userConfirmedPass) {
-            console.log('success');
+            userRegistration(userEmail, userPassword);
             seterrorStatus(false);
         }
         else {
