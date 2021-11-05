@@ -3,6 +3,7 @@ import './App.css';
 import Appointment from './Pages/Appointment/Appointment';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
+import Register from './Pages/Register/Register';
 import Navigation from './Pages/Shared/Navigation/Navigation';
 
 function App() {
@@ -22,6 +23,9 @@ function App() {
           </Route>
           <Route path='/login'>
             <Login />
+          </Route>
+          <Route path='/register'>
+            <Register />
           </Route>
         </Switch>
       </Router>

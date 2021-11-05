@@ -1,9 +1,9 @@
 import { Container, Grid, Typography } from '@mui/material';
-import React from 'react';
-import './Login.css';
+import React, { useState } from 'react';
+import './Register.css';
 import { useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
-import loginImg from '../../images/login.png';
+import registerImg from '../../images/login.png';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Input from '@mui/material/Input';
@@ -14,7 +14,8 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
+    const [errorStatus, seterrorStatus] = useState(false)
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
@@ -33,20 +34,27 @@ const Login = () => {
 
     const { handleSubmit, register } = useForm();
     const onSubmit = data => {
-        console.log(data)
+        const { userEmail, userPassword, userConfirmedPass } = data;
+        if (userPassword === userConfirmedPass) {
+            console.log('success');
+            seterrorStatus(false);
+        }
+        else {
+            seterrorStatus(true);
+        }
     }
     return (
         <Container>
             <Grid container spacing={3} sx={{ alignItems: 'center', justifyContent: 'center' }}>
                 <Grid item xs={12} md={6}>
-                    <div className="login-form-contents">
-                        <div className="login-head">
+                    <div className="register-form-contents">
+                        <div className="register-head">
                             <Typography variant="h3" gutterBottom component="div">
-                                Login
+                                Register
                             </Typography>
                         </div>
-                        <div className="login-form-wrapper">
-                            <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+                        <div className="register-form-wrapper">
+                            <form onSubmit={handleSubmit(onSubmit)} className="register-form">
 
                                 {/* EMAIL INPUT FIELD */}
                                 <TextField id="standard-basic" {...register('userEmail')} label="Email" type="email" variant="standard" required />
@@ -72,7 +80,10 @@ const Login = () => {
                                         }
                                     />
                                 </FormControl>
-                                <Link to='/register'><Button variant="text">New user? Please register.</Button></Link>
+
+                                {/* PASSWORD CONFIRMATION */}
+                                <TextField id="confirm-password" error={errorStatus} {...register('userConfirmedPass')} label="Confirm password" type="password" variant="standard" required />
+                                <Link to='/login'><Button variant="text">New user? Please login.</Button></Link>
                                 {/* SUBMIT BUTTON */}
                                 <Button type='submit' variant="contained">Contained</Button>
                             </form>
@@ -80,8 +91,8 @@ const Login = () => {
                     </div>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <div className="login-img">
-                        <img src={loginImg} alt="Loginpageimage" style={{ width: '100%' }} />
+                    <div className="register-img">
+                        <img src={registerImg} alt="register" style={{ width: '100%' }} />
                     </div>
                 </Grid>
             </Grid>
@@ -89,4 +100,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
