@@ -13,9 +13,10 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
-import useFirebase from '../../Hooks/useFirebase';
+import useAuth from '../../Hooks/useAuth';
 
 const Register = () => {
+    const { userRegistration } = useAuth();
     const [errorStatus, seterrorStatus] = useState(false)
     const [values, setValues] = React.useState({
         password: '',
@@ -86,7 +87,7 @@ const Register = () => {
                                 <TextField id="confirm-password" error={errorStatus} {...register('userConfirmedPass')} label="Confirm password" type="password" variant="standard" required />
                                 <Link to='/login'><Button variant="text">New user? Please login.</Button></Link>
                                 {/* SUBMIT BUTTON */}
-                                <Button type='submit' variant="contained">Contained</Button>
+                                <Button type='submit' variant="contained">Register</Button>
                             </form>
                         </div>
                     </div>
