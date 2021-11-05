@@ -33,8 +33,16 @@ const useFirebase = () => {
     }
     //OBSERVER USER 
     useEffect(() => {
+        setisLoading(true);
         const unSubscribe = onAuthStateChanged(auth, (user) => {
-            user ? setuser(user) : setuser({});
+            if (user) {
+                setuser(user);
+                setisLoading(false);
+            }
+            else {
+                setuser({});
+                setisLoading(false);
+            }
         })
         return () => unSubscribe;
     }, [])

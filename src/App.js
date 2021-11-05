@@ -6,6 +6,7 @@ import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
 import Register from './Pages/Register/Register';
 import Navigation from './Pages/Shared/Navigation/Navigation';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
             <Route exact path='/homes'>
               <Home></Home>
             </Route>
-            <Route path='/appointment'>
+            <PrivateRoute path='/appointment'>
               <Appointment></Appointment>
-            </Route>
+            </PrivateRoute>
             <Route path='/login'>
               <Login />
             </Route>
