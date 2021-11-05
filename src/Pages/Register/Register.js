@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material';
+import { CircularProgress, Container, Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import './Register.css';
 import { useForm } from 'react-hook-form';
@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
 
 const Register = () => {
-    const { userRegistration } = useAuth();
+    const { userRegistration, isLoading } = useAuth();
     const [errorStatus, seterrorStatus] = useState(false)
     const [values, setValues] = React.useState({
         password: '',
@@ -45,52 +45,58 @@ const Register = () => {
             seterrorStatus(true);
         }
     }
+
     return (
         <Container>
             <Grid container spacing={3} sx={{ alignItems: 'center', justifyContent: 'center' }}>
                 <Grid item xs={12} md={6}>
-                    <div className="register-form-contents">
-                        <div className="register-head">
-                            <Typography variant="h3" gutterBottom component="div">
-                                Register
-                            </Typography>
-                        </div>
-                        <div className="register-form-wrapper">
-                            <form onSubmit={handleSubmit(onSubmit)} className="register-form">
+                    {
+                        isLoading ?
+                            <CircularProgress />
+                            :
+                            <div className="register-form-contents">
+                                <div className="register-head">
+                                    <Typography variant="h3" gutterBottom component="div">
+                                        Register
+                                    </Typography>
+                                </div>
+                                <div className="register-form-wrapper">
+                                    <form onSubmit={handleSubmit(onSubmit)} className="register-form">
 
-                                {/* EMAIL INPUT FIELD */}
-                                <TextField id="standard-basic" {...register('userEmail')} label="Email" type="email" variant="standard" required />
+                                        {/* EMAIL INPUT FIELD */}
+                                        <TextField id="standard-basic" {...register('userEmail')} label="Email" type="email" variant="standard" required />
 
-                                {/* PASSWORD INPUT FIELD */}
-                                <FormControl variant="standard">
-                                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                                    <Input
-                                        id="standard-adornment-password"
-                                        type={values.showPassword ? 'text' : 'password'}
-                                        {...register('userPassword')}
-                                        required
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                >
-                                                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                </FormControl>
+                                        {/* PASSWORD INPUT FIELD */}
+                                        <FormControl variant="standard">
+                                            <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                                            <Input
+                                                id="standard-adornment-password"
+                                                type={values.showPassword ? 'text' : 'password'}
+                                                {...register('userPassword')}
+                                                required
+                                                endAdornment={
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={handleClickShowPassword}
+                                                            onMouseDown={handleMouseDownPassword}
+                                                        >
+                                                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                }
+                                            />
+                                        </FormControl>
 
-                                {/* PASSWORD CONFIRMATION */}
-                                <TextField id="confirm-password" error={errorStatus} {...register('userConfirmedPass')} label="Confirm password" type="password" variant="standard" required />
-                                <Link to='/login'><Button variant="text">Already a user? Please login.</Button></Link>
-                                {/* SUBMIT BUTTON */}
-                                <Button type='submit' variant="contained">Register</Button>
-                            </form>
-                        </div>
-                    </div>
+                                        {/* PASSWORD CONFIRMATION */}
+                                        <TextField id="confirm-password" error={errorStatus} {...register('userConfirmedPass')} label="Confirm password" type="password" variant="standard" required />
+                                        <Link to='/login'><Button variant="text">Already a user? Please login.</Button></Link>
+                                        {/* SUBMIT BUTTON */}
+                                        <Button type='submit' variant="contained">Register</Button>
+                                    </form>
+                                </div>
+                            </div>
+                    }
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <div className="register-img">

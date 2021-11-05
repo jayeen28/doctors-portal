@@ -7,17 +7,23 @@ initializeAuthentication();
 const useFirebase = () => {
     const [user, setuser] = useState({});
     const [error, seterror] = useState('');
+    const [isLoading, setisLoading] = useState(false);
     const auth = getAuth();
     //USER REGISTRATION 
     const userRegistration = (email, Password) => {
+        setisLoading(true)
         createUserWithEmailAndPassword(auth, email, Password)
-            .then(res => console.log(res.user));
+            .then(res => console.log(res.user))
+            .catch(error => seterror(error.message))
+            .finally(() => setisLoading(false))
     }
     //USER LOG IN
     const userLogin = (email, password) => {
+        setisLoading(true)
         signInWithEmailAndPassword(auth, email, password)
             .then(res => setuser(res.user))
             .catch(error => seterror(error.message))
+            .finally(() => setisLoading(false))
     }
     //USER SIGN OUT
     const userSignOut = () => {
@@ -38,6 +44,7 @@ const useFirebase = () => {
         userRegistration,
         userLogin,
         userSignOut,
+        isLoading,
         user,
         error
     }
