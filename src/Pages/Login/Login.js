@@ -13,8 +13,10 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
+import useAuth from '../../Hooks/useAuth';
 
 const Login = () => {
+    const { userLogin } = useAuth();
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
@@ -33,7 +35,7 @@ const Login = () => {
 
     const { handleSubmit, register } = useForm();
     const onSubmit = data => {
-        console.log(data)
+        userLogin(data.userEmail, data.userPassword)
     }
     return (
         <Container>
@@ -74,7 +76,7 @@ const Login = () => {
                                 </FormControl>
                                 <Link to='/register'><Button variant="text">New user? Please register.</Button></Link>
                                 {/* SUBMIT BUTTON */}
-                                <Button type='submit' variant="contained">Contained</Button>
+                                <Button type='submit' variant="contained">Login</Button>
                             </form>
                         </div>
                     </div>

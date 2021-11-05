@@ -85,7 +85,7 @@ const Register = () => {
 
                                 {/* PASSWORD CONFIRMATION */}
                                 <TextField id="confirm-password" error={errorStatus} {...register('userConfirmedPass')} label="Confirm password" type="password" variant="standard" required />
-                                <Link to='/login'><Button variant="text">New user? Please login.</Button></Link>
+                                <Link to='/login'><Button variant="text">Already a user? Please login.</Button></Link>
                                 {/* SUBMIT BUTTON */}
                                 <Button type='submit' variant="contained">Register</Button>
                             </form>
