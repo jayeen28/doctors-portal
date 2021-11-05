@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import Appointment from './Pages/Appointment/Appointment';
 import Home from './Pages/Home/Home';
+import Login from './Pages/Login/Login';
 import Navigation from './Pages/Shared/Navigation/Navigation';
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
           </Route>
           <Route path='/appointment'>
             <Appointment></Appointment>
+          </Route>
+          <Route path='/login'>
+            <Login />
           </Route>
         </Switch>
       </Router>
