@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
 
 const Register = () => {
-    const { userRegistration, isLoading } = useAuth();
+    const { userRegistration, isLoading, googleLogin } = useAuth();
     const [errorStatus, seterrorStatus] = useState(false)
     const [values, setValues] = React.useState({
         password: '',
@@ -90,6 +90,7 @@ const Register = () => {
 
                                         {/* PASSWORD CONFIRMATION */}
                                         <TextField id="confirm-password" error={errorStatus} {...register('userConfirmedPass')} label="Confirm password" type="password" variant="standard" required />
+                                        <Button variant="contained" onClick={() => googleLogin()}>Continue with Google</Button>
                                         <Link to='/login'><Button variant="text">Already a user? Please login.</Button></Link>
                                         {/* SUBMIT BUTTON */}
                                         <Button type='submit' variant="contained">Register</Button>

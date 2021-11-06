@@ -1,5 +1,5 @@
 import initializeAuthentication from "../Firebase/firebase.init";
-import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useEffect, useState } from "react";
 
 initializeAuthentication();
@@ -9,6 +9,7 @@ const useFirebase = () => {
     const [error, seterror] = useState('');
     const [isLoading, setisLoading] = useState(true);
     const auth = getAuth();
+    const googleProvider = new GoogleAuthProvider();
 
     //USER REGISTRATION 
     const userRegistration = (email, Password) => {
@@ -17,6 +18,11 @@ const useFirebase = () => {
             .then(res => console.log(res.user))
             .catch(error => seterror(error.message))
             .finally(() => setisLoading(false))
+    }
+
+    //GOOGLE LOGIN
+    const googleLogin = () => {
+        return signInWithPopup(auth, googleProvider)
     }
 
     //USER LOG IN
@@ -29,7 +35,7 @@ const useFirebase = () => {
     //USER SIGN OUT
     const userLogOut = () => {
         signOut(auth)
-            .then(() => setuser({}))
+            .then(() => setuser(null))
             .catch(error => seterror(error.message))
     }
 
@@ -42,16 +48,16 @@ const useFirebase = () => {
         })
         return () => unSubscribe;
     }, [])
-
     return {
         userRegistration,
         userLogin,
         userLogOut,
-        isLoading,
-        user,
+        googleLogin,
         setuser,
         seterror,
         setisLoading,
+        isLoading,
+        user,
         error
     }
 }

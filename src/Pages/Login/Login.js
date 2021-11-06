@@ -17,10 +17,9 @@ import useAuth from '../../Hooks/useAuth';
 import { useHistory, useLocation } from "react-router-dom";
 
 const Login = () => {
-    const { userLogin, setuser, seterror, setisLoading } = useAuth();
+    const { userLogin, setuser, seterror, setisLoading, googleLogin } = useAuth();
     const history = useHistory();
     const location = useLocation();
-    console.log(location)
     const redirect_uri = location.state?.from;
     const [values, setValues] = React.useState({
         password: '',
@@ -47,6 +46,14 @@ const Login = () => {
             })
             .catch(error => seterror(error.message))
             .finally(() => setisLoading(false))
+    }
+    const googleLoginHandler = () => {
+        googleLogin()
+            .then(res => {
+                setuser(res.user);
+                history.push(redirect_uri)
+            })
+            .catch(error => seterror(error.message))
     }
     return (
         <Container>
@@ -85,6 +92,7 @@ const Login = () => {
                                         }
                                     />
                                 </FormControl>
+                                <Button variant="contained" onClick={() => googleLoginHandler()}>Continue with Google</Button>
                                 <Link to='/register'><Button variant="text">New user? Please register.</Button></Link>
                                 {/* SUBMIT BUTTON */}
                                 <Button type='submit' variant="contained">Login</Button>
