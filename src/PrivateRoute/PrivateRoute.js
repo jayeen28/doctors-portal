@@ -5,12 +5,12 @@ import useAuth from '../Hooks/useAuth';
 
 const PrivateRoute = ({ children, ...rest }) => {
     const { user, isLoading } = useAuth();
-    if (isLoading) { <CircularProgress /> }
+    if (isLoading) { return <CircularProgress /> }
     return (
         <Route
             {...rest}
             render={({ location }) =>
-                user.email ? (
+                user ? (
                     children
                 )
                     :

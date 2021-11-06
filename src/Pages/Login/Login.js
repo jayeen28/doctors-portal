@@ -14,9 +14,14 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
+import { useHistory, useLocation } from "react-router-dom";
 
 const Login = () => {
-    const { userLogin } = useAuth();
+    const { userLogin, setuser, seterror, setisLoading } = useAuth();
+    const history = useHistory();
+    const location = useLocation();
+    console.log(location)
+    const redirect_uri = location.state?.from;
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
@@ -36,6 +41,12 @@ const Login = () => {
     const { handleSubmit, register } = useForm();
     const onSubmit = data => {
         userLogin(data.userEmail, data.userPassword)
+            .then(res => {
+                setuser(res.user);
+                history.push(redirect_uri);
+            })
+            .catch(error => seterror(error.message))
+            .finally(() => setisLoading(false))
     }
     return (
         <Container>

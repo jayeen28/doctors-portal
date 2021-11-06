@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 initializeAuthentication();
 
 const useFirebase = () => {
-    const [user, setuser] = useState({});
+    const [user, setuser] = useState(null);
     const [error, seterror] = useState('');
-    const [isLoading, setisLoading] = useState(false);
+    const [isLoading, setisLoading] = useState(true);
     const auth = getAuth();
+
     //USER REGISTRATION 
     const userRegistration = (email, Password) => {
         setisLoading(true)
@@ -17,43 +18,40 @@ const useFirebase = () => {
             .catch(error => seterror(error.message))
             .finally(() => setisLoading(false))
     }
+
     //USER LOG IN
     const userLogin = (email, password) => {
         setisLoading(true)
-        signInWithEmailAndPassword(auth, email, password)
-            .then(res => setuser(res.user))
-            .catch(error => seterror(error.message))
-            .finally(() => setisLoading(false))
+        return signInWithEmailAndPassword(auth, email, password)
+
     }
+
     //USER SIGN OUT
-    const userSignOut = () => {
+    const userLogOut = () => {
         signOut(auth)
             .then(() => setuser({}))
             .catch(error => seterror(error.message))
     }
+
     //OBSERVER USER 
     useEffect(() => {
         setisLoading(true);
         const unSubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setuser(user);
-                setisLoading(false);
-            }
-            else {
-                setuser({});
-                setisLoading(false);
-            }
+            user ? setuser(user) : setuser();
+            setisLoading(false)
         })
         return () => unSubscribe;
     }, [])
 
-    console.log(user)
     return {
         userRegistration,
         userLogin,
-        userSignOut,
+        userLogOut,
         isLoading,
         user,
+        setuser,
+        seterror,
+        setisLoading,
         error
     }
 }
