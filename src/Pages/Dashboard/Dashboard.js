@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -25,13 +25,13 @@ const drawerWidth = 240;
 
 function Dashboard(props) {
     const { user, userLogOut } = useAuth();
+    const [date, setdate] = useState(new Date())
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-
     const drawer = (
         <div>
             <Toolbar>
@@ -129,10 +129,10 @@ function Dashboard(props) {
                 <Toolbar />
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={12} md={6}>
-                        <Calender />
+                        <Calender date={date} setdate={setdate} />
                     </Grid>
                     <Grid item xs={12} sm={12} md={6}>
-                        <Appointments />
+                        <Appointments date={date} />
                     </Grid>
                 </Grid>
             </Box>
