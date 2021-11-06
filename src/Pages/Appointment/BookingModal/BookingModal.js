@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
+import { useForm } from 'react-hook-form';
+import useAuth from '../../../Hooks/useAuth';
 
 const style = {
     position: 'absolute',
@@ -18,11 +20,19 @@ const style = {
 };
 
 const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
+    const { user } = useAuth();
+    const { displayName, email } = user;
+
     const { name, time } = booking;
-    const handleBookSubmit = e => {
-        e.preventDefault();
-        handleBookingClose();
+
+    const { register, handleSubmit, setValue } = useForm();
+    const onSubmit = data => {
+        console.log(data)
     }
+    setValue('time', `${time}`)
+    setValue('patientName', `${displayName}`)
+    setValue('patientEmail', `${email}`)
+    setValue('treatmentDate', `${date.toDateString()}`)
     return (
         <Modal
             open={openBooking}
@@ -34,36 +44,41 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     {name}
                 </Typography>
-                <form onSubmit={handleBookSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                         disabled
                         id="outlined-size-small"
-                        defaultValue={time}
+                        {...register('time')}
                         sx={{ width: '90%', m: 1 }}
                         size="small"
                     />
                     <TextField
                         id="outlined-size-small"
                         sx={{ width: '90%', m: 1 }}
-                        defaultValue="Your name"
+                        placeholder="Your name"
+                        {...register('patientName')}
                         size="small"
                     />
                     <TextField
                         id="outlined-size-small"
                         sx={{ width: '90%', m: 1 }}
-                        defaultValue="Your email"
+                        placeholder="Your email"
+                        {...register('patientEmail')}
                         size="small"
                     />
                     <TextField
                         id="outlined-size-small"
                         sx={{ width: '90%', m: 1 }}
-                        defaultValue="Your phone"
+                        placeholder="Your phone"
+                        {...register('patientPhone')}
                         size="small"
+                        required
                     />
                     <TextField
                         id="outlined-size-small"
                         sx={{ width: '90%', m: 1 }}
-                        defaultValue={date.toDateString()}
+                        disabled
+                        {...register('treatmentDate')}
                         size="small"
                     />
                     <Button variant="contained" type="submit">Book</Button>
