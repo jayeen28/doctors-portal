@@ -15,9 +15,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
+import Calender from '../Shared/Calender/Calender';
+import Appointments from './Appointments/Appointments';
 
 const drawerWidth = 240;
 
@@ -80,7 +82,8 @@ function Dashboard(props) {
                     {
                         user ?
                             <>
-                                <Link to='/login'><Button sx={{ color: 'white' }} onClick={() => userLogOut()}>Logout</Button></Link>
+                                <Link to='/login'><Button color="inherit" sx={{ color: 'white' }} onClick={() => userLogOut()}>Logout</Button></Link>
+                                <Link to='/dashboard'><Button color="inherit" sx={{ color: 'white' }} >Dashboard</Button></Link>
                             </>
                             :
                             <Link to='/login'><Button sx={{ color: 'white' }}>Login</Button></Link>
@@ -124,12 +127,14 @@ function Dashboard(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                    enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-                    imperdiet.
-                </Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={12} md={6}>
+                        <Calender />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6}>
+                        <Appointments />
+                    </Grid>
+                </Grid>
             </Box>
         </Box>
     );

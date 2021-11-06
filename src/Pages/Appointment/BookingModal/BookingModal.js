@@ -28,6 +28,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
     const { register, handleSubmit, setValue } = useForm();
     const onSubmit = data => {
         data.appointmentName = name;
+        data.patientUid = user.uid;
         //SEND BOOKED DATA TO DATABASE
         fetch('http://localhost:5000/appointment/book', {
             method: 'POST',
