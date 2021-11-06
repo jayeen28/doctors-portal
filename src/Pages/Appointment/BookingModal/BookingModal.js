@@ -27,7 +27,25 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
 
     const { register, handleSubmit, setValue } = useForm();
     const onSubmit = data => {
-        console.log(data)
+        data.appointmentName = name;
+        //SEND BOOKED DATA TO DATABASE
+        fetch('http://localhost:5000/appointment/book', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.acknowledged) {
+                    handleBookingClose();
+                    alert('Appointment has book successfully')
+                }
+                else {
+                    alert('Something went wrong. Pleaser try again.')
+                }
+            })
     }
     setValue('time', `${time}`)
     setValue('patientName', `${displayName}`)
