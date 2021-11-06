@@ -12,17 +12,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
 
 const Register = () => {
-    const { userRegistration, isLoading, googleLogin } = useAuth();
-    const [errorStatus, seterrorStatus] = useState(false)
+    const { userRegistration, isLoading, googleLogin, setuser, seterror } = useAuth();
+    const [errorStatus, seterrorStatus] = useState(false);
+    const history = useHistory();
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
     });
-
     const handleClickShowPassword = () => {
         setValues({
             ...values,
@@ -36,16 +36,22 @@ const Register = () => {
 
     const { handleSubmit, register } = useForm();
     const onSubmit = data => {
-        const { userEmail, userPassword, userConfirmedPass } = data;
+        const { userEmail, userPassword, userConfirmedPass, userName } = data;
         if (userPassword === userConfirmedPass) {
-            userRegistration(userEmail, userPassword);
+            userRegistration(userEmail, userPassword, userName, history);
             seterrorStatus(false);
         }
         else {
             seterrorStatus(true);
         }
     }
-
+    const googleLoginHandler = () => {
+        googleLogin()
+            .then(res => {
+                setuser(res.user);
+            })
+            .catch(error => seterror(error.message))
+    }
     return (
         <Container>
             <Grid container spacing={3} sx={{ alignItems: 'center', justifyContent: 'center' }}>
@@ -64,7 +70,8 @@ const Register = () => {
                                     <form onSubmit={handleSubmit(onSubmit)} className="register-form">
 
                                         {/* EMAIL INPUT FIELD */}
-                                        <TextField id="standard-basic" {...register('userEmail')} label="Email" type="email" variant="standard" required />
+                                        <TextField {...register('userName')} label="Your name" type="text" variant="standard" required />
+                                        <TextField {...register('userEmail')} label="Email" type="email" variant="standard" required />
 
                                         {/* PASSWORD INPUT FIELD */}
                                         <FormControl variant="standard">
@@ -90,7 +97,7 @@ const Register = () => {
 
                                         {/* PASSWORD CONFIRMATION */}
                                         <TextField id="confirm-password" error={errorStatus} {...register('userConfirmedPass')} label="Confirm password" type="password" variant="standard" required />
-                                        <Button variant="contained" onClick={() => googleLogin()}>Continue with Google</Button>
+                                        <Button variant="contained" onClick={() => googleLoginHandler()}>Continue with Google</Button>
                                         <Link to='/login'><Button variant="text">Already a user? Please login.</Button></Link>
                                         {/* SUBMIT BUTTON */}
                                         <Button type='submit' variant="contained">Register</Button>

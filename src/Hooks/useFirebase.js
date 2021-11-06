@@ -1,5 +1,5 @@
 import initializeAuthentication from "../Firebase/firebase.init";
-import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 
 initializeAuthentication();
@@ -12,12 +12,26 @@ const useFirebase = () => {
     const googleProvider = new GoogleAuthProvider();
 
     //USER REGISTRATION 
-    const userRegistration = (email, Password) => {
+    const userRegistration = (email, Password, userName, history) => {
         setisLoading(true)
         createUserWithEmailAndPassword(auth, email, Password)
-            .then(res => console.log(res.user))
+            .then(res => {
+                setuser(res.user);
+                updateUserName(userName);
+            })
             .catch(error => seterror(error.message))
-            .finally(() => setisLoading(false))
+            .finally(() => {
+                setisLoading(false);
+                history.push('/');
+            })
+    }
+
+    //UPDATE USER NAME
+    const updateUserName = (name) => {
+        updateProfile(auth.currentUser, {
+            displayName: `${name}`
+        }).then(res => { })
+            .catch(error => console.log(error.message))
     }
 
     //GOOGLE LOGIN
@@ -29,9 +43,7 @@ const useFirebase = () => {
     const userLogin = (email, password) => {
         setisLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
-
     }
-
     //USER SIGN OUT
     const userLogOut = () => {
         signOut(auth)

@@ -20,7 +20,7 @@ const Login = () => {
     const { userLogin, setuser, seterror, setisLoading, googleLogin } = useAuth();
     const history = useHistory();
     const location = useLocation();
-    const redirect_uri = location.state?.from;
+    const redirect_uri = location.state?.from || '/';
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
@@ -36,7 +36,6 @@ const Login = () => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-
     const { handleSubmit, register } = useForm();
     const onSubmit = data => {
         userLogin(data.userEmail, data.userPassword)
