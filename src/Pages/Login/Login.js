@@ -15,6 +15,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
 import { useHistory, useLocation } from "react-router-dom";
+import Navigation from '../Shared/Navigation/Navigation';
 
 const Login = () => {
     const { userLogin, setuser, seterror, setisLoading, googleLogin } = useAuth();
@@ -55,57 +56,60 @@ const Login = () => {
             .catch(error => seterror(error.message))
     }
     return (
-        <Container>
-            <Grid container spacing={3} sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                <Grid item xs={12} md={6}>
-                    <div className="login-form-contents">
-                        <div className="login-head">
-                            <Typography variant="h3" gutterBottom component="div">
-                                Login
-                            </Typography>
-                        </div>
-                        <div className="login-form-wrapper">
-                            <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+        <>
+            <Navigation />
+            <Container>
+                <Grid container spacing={3} sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <Grid item xs={12} md={6}>
+                        <div className="login-form-contents">
+                            <div className="login-head">
+                                <Typography variant="h3" gutterBottom component="div">
+                                    Login
+                                </Typography>
+                            </div>
+                            <div className="login-form-wrapper">
+                                <form onSubmit={handleSubmit(onSubmit)} className="login-form">
 
-                                {/* EMAIL INPUT FIELD */}
-                                <TextField id="standard-basic" {...register('userEmail')} label="Email" type="email" variant="standard" required />
+                                    {/* EMAIL INPUT FIELD */}
+                                    <TextField id="standard-basic" {...register('userEmail')} label="Email" type="email" variant="standard" required />
 
-                                {/* PASSWORD INPUT FIELD */}
-                                <FormControl variant="standard">
-                                    <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                                    <Input
-                                        id="standard-adornment-password"
-                                        type={values.showPassword ? 'text' : 'password'}
-                                        {...register('userPassword')}
-                                        required
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                >
-                                                    {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                    />
-                                </FormControl>
-                                <Button variant="contained" onClick={() => googleLoginHandler()}>Continue with Google</Button>
-                                <Link to='/register'><Button variant="text">New user? Please register.</Button></Link>
-                                {/* SUBMIT BUTTON */}
-                                <Button type='submit' variant="contained">Login</Button>
-                            </form>
+                                    {/* PASSWORD INPUT FIELD */}
+                                    <FormControl variant="standard">
+                                        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                                        <Input
+                                            id="standard-adornment-password"
+                                            type={values.showPassword ? 'text' : 'password'}
+                                            {...register('userPassword')}
+                                            required
+                                            endAdornment={
+                                                <InputAdornment position="end">
+                                                    <IconButton
+                                                        aria-label="toggle password visibility"
+                                                        onClick={handleClickShowPassword}
+                                                        onMouseDown={handleMouseDownPassword}
+                                                    >
+                                                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            }
+                                        />
+                                    </FormControl>
+                                    <Button variant="contained" onClick={() => googleLoginHandler()}>Continue with Google</Button>
+                                    <Link to='/register'><Button variant="text">New user? Please register.</Button></Link>
+                                    {/* SUBMIT BUTTON */}
+                                    <Button type='submit' variant="contained">Login</Button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <div className="login-img">
+                            <img src={loginImg} alt="Loginpageimage" style={{ width: '100%' }} />
+                        </div>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <div className="login-img">
-                        <img src={loginImg} alt="Loginpageimage" style={{ width: '100%' }} />
-                    </div>
-                </Grid>
-            </Grid>
-        </Container>
+            </Container>
+        </>
     );
 };
 
