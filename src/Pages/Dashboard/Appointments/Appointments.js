@@ -22,7 +22,6 @@ const Appointments = ({ date }) => {
                 setisLoading(false);
             });
     }, [date])
-
     return (
         <div className="appointments-section">
             <div className="appointments-head">
@@ -35,9 +34,10 @@ const Appointments = ({ date }) => {
                         <Table aria-label="simple table">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Appointments</TableCell>
-                                    <TableCell align="right">Time</TableCell>
-                                    <TableCell align="right">Action</TableCell>
+                                    <TableCell>Patient name</TableCell>
+                                    <TableCell>Treatment</TableCell>
+                                    <TableCell align="left">Time</TableCell>
+                                    <TableCell align="left">Action</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -46,11 +46,12 @@ const Appointments = ({ date }) => {
                                         key={row._id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
+                                        <TableCell align="left">{row.patientName}</TableCell>
                                         <TableCell component="th" scope="row">
                                             {row.appointmentName}
                                         </TableCell>
-                                        <TableCell align="right">{row.time}</TableCell>
-                                        <TableCell align="right"></TableCell>
+                                        <TableCell align="left">{row.time}</TableCell>
+                                        <TableCell align="left"></TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

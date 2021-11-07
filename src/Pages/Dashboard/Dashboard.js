@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -6,26 +6,27 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Button, Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 import useAuth from '../../Hooks/useAuth';
-import Calender from '../Shared/Calender/Calender';
-import Appointments from './Appointments/Appointments';
+import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
+import DashboardHome from './DashboardHome/DashboardHome';
+import MakeAdmin from './MakeAdmin/MakeAdmin';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faUserAlt } from '@fortawesome/free-solid-svg-icons';
 
 const drawerWidth = 240;
 
 function Dashboard(props) {
+    let { path, url } = useRouteMatch();
     const { user, userLogOut } = useAuth();
-    const [date, setdate] = useState(new Date())
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -41,14 +42,22 @@ function Dashboard(props) {
             </Toolbar>
             <Divider />
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
+                <ListItem >
+                    <ListItemIcon sx={{ fontSize: 25 }}>
+                        <FontAwesomeIcon icon={faHome} />
+                    </ListItemIcon>
+                    <ListItemText>
+                        <Link to={`${url}`}><Button sx={{ color: '#757575' }}>Home</Button></Link>
+                    </ListItemText>
+                </ListItem>
+                <ListItem >
+                    <ListItemIcon sx={{ fontSize: 25 }}>
+                        <FontAwesomeIcon icon={faUserAlt} />
+                    </ListItemIcon>
+                    <ListItemText>
+                        <Link to={`${url}/makeadmin`}><Button sx={{ color: '#757575' }}>Make Admin</Button></Link>
+                    </ListItemText>
+                </ListItem>
             </List>
         </div>
     );
@@ -127,14 +136,14 @@ function Dashboard(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12} md={6}>
-                        <Calender date={date} setdate={setdate} />
-                    </Grid>
-                    <Grid item xs={12} sm={12} md={6}>
-                        <Appointments date={date} />
-                    </Grid>
-                </Grid>
+                <Switch>
+                    <Route exact path={path}>
+                        <DashboardHome />
+                    </Route>
+                    <Route path={`${path}/makeadmin`}>
+                        <MakeAdmin />
+                    </Route>
+                </Switch>
             </Box>
         </Box>
     );
