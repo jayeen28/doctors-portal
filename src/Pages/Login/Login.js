@@ -18,7 +18,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import Navigation from '../Shared/Navigation/Navigation';
 
 const Login = () => {
-    const { userLogin, setuser, seterror, setisLoading, googleLogin } = useAuth();
+    const { userLogin, setuser, seterror, setisLoading, googleLogin, mongoUpsert } = useAuth();
     const history = useHistory();
     const location = useLocation();
     const redirect_uri = location.state?.from || '/';
@@ -51,7 +51,9 @@ const Login = () => {
         googleLogin()
             .then(res => {
                 setuser(res.user);
-                history.push(redirect_uri)
+                const { displayName, email, uid } = res.user;
+                mongoUpsert(displayName, email, uid);
+                history.push(redirect_uri);
             })
             .catch(error => seterror(error.message))
     }

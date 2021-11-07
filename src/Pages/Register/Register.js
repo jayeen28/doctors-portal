@@ -17,7 +17,7 @@ import useAuth from '../../Hooks/useAuth';
 import Navigation from '../Shared/Navigation/Navigation';
 
 const Register = () => {
-    const { userRegistration, isLoading, googleLogin, setuser, seterror } = useAuth();
+    const { userRegistration, isLoading, googleLogin, setuser, seterror, mongoUpsert } = useAuth();
     const [errorStatus, seterrorStatus] = useState(false);
     const history = useHistory();
     const [values, setValues] = React.useState({
@@ -50,6 +50,9 @@ const Register = () => {
         googleLogin()
             .then(res => {
                 setuser(res.user);
+                const { displayName, email, uid } = res.user;
+                mongoUpsert(displayName, email, uid);
+                history.push('/');
             })
             .catch(error => seterror(error.message))
     }

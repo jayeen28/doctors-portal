@@ -11,13 +11,27 @@ const useFirebase = () => {
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();
 
+    //SEND UPSERT REQUEST TO MONGODB
+    const mongoUpsert = (displayName, email, uid) => {
+        const userData = { displayName, email, uid };
+        fetch('http://localhost:5000/users', {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+
+    }
     //USER REGISTRATION 
     const userRegistration = (email, Password, userName, history) => {
         setisLoading(true)
         createUserWithEmailAndPassword(auth, email, Password)
             .then(res => {
-                setuser(res.user);
                 updateUserName(userName);
+                setuser(res.user);
+                const { email, uid } = res.user;
+                mongoUpsert(userName, email, uid)
             })
             .catch(error => seterror(error.message))
             .finally(() => {
@@ -30,8 +44,9 @@ const useFirebase = () => {
     const updateUserName = (name) => {
         updateProfile(auth.currentUser, {
             displayName: `${name}`
-        }).then(res => { })
-            .catch(error => console.log(error.message))
+        })
+            .then(res => { })
+            .catch(error => seterror(error.message))
     }
 
     //GOOGLE LOGIN
@@ -68,6 +83,7 @@ const useFirebase = () => {
         setuser,
         seterror,
         setisLoading,
+        mongoUpsert,
         isLoading,
         user,
         error
