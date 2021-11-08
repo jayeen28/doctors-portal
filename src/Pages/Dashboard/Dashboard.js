@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUserMd } from '@fortawesome/free-solid-svg-icons';
 import { faUserAlt } from '@fortawesome/free-solid-svg-icons';
 import AddDoctor from './AddDoctor/AddDoctor';
+import AdminRoute from './AdminRoute/AdminRoute';
 
 const drawerWidth = 240;
 
@@ -159,12 +160,12 @@ function Dashboard(props) {
                     <Route exact path={path}>
                         <DashboardHome />
                     </Route>
-                    <Route path={`${path}/makeadmin`}>
+                    <AdminRoute path={`${path}/makeadmin`}>
                         <MakeAdmin />
-                    </Route>
-                    <Route path={`${path}/adddoctor`}>
+                    </AdminRoute>
+                    <AdminRoute path={`${path}/adddoctor`}>
                         <AddDoctor />
-                    </Route>
+                    </AdminRoute>
                 </Switch>
             </Box>
         </Box>
