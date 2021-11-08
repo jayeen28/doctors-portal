@@ -90,7 +90,7 @@ const useFirebase = () => {
             setisLoading(false)
         })
         return () => unSubscribe;
-    }, [])
+    }, [auth])
     return {
         userRegistration,
         userLogin,

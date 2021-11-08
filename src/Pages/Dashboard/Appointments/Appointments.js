@@ -21,7 +21,7 @@ const Appointments = ({ date }) => {
                 setappointments(data);
                 setisLoading(false);
             });
-    }, [date])
+    }, [date, user.uid])
     return (
         <div className="appointments-section">
             <div className="appointments-head">
