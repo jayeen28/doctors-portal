@@ -65,7 +65,7 @@ const useFirebase = () => {
     //CHECK LOGED IN USER ADMIN OR NOT
     useEffect(() => {
         if (user?.uid) {
-            fetch(`http://localhost:5000/users/${user?.uid}`)
+            fetch(`https://desolate-waters-93213.herokuapp.com/users/${user?.uid}`)
                 .then(res => res.json())
                 .then(data => {
                     setisAdmin(data?.isAdmin);
