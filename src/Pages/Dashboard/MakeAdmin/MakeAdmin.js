@@ -20,13 +20,15 @@ const MakeAdmin = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.modifiedCount > 0) {
-                    setisloading(false);
                     alert('Admin setup successfull');
                 }
+                else if (data.matchedCount > 0) {
+                    alert('He is already an admin')
+                }
                 else {
-                    setisloading(false);
                     alert(`${data.message}`)
                 }
+                setisloading(false)
             })
     }
     return (
