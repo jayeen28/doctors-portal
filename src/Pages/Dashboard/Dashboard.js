@@ -19,17 +19,17 @@ import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 import DashboardHome from './DashboardHome/DashboardHome';
 import MakeAdmin from './MakeAdmin/MakeAdmin';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUserMd } from '@fortawesome/free-solid-svg-icons';
 import { faUserAlt } from '@fortawesome/free-solid-svg-icons';
+import AddDoctor from './AddDoctor/AddDoctor';
 
 const drawerWidth = 240;
 
 function Dashboard(props) {
     let { path, url } = useRouteMatch();
-    const { user, userLogOut } = useAuth();
+    const { user, userLogOut, isAdmin } = useAuth();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -50,14 +50,33 @@ function Dashboard(props) {
                         <Link to={`${url}`}><Button sx={{ color: '#757575' }}>Home</Button></Link>
                     </ListItemText>
                 </ListItem>
-                <ListItem >
-                    <ListItemIcon sx={{ fontSize: 25 }}>
-                        <FontAwesomeIcon icon={faUserAlt} />
-                    </ListItemIcon>
-                    <ListItemText>
-                        <Link to={`${url}/makeadmin`}><Button sx={{ color: '#757575' }}>Make Admin</Button></Link>
-                    </ListItemText>
-                </ListItem>
+
+                {/* // */}
+
+                {
+                    isAdmin &&
+                    <>
+                        <ListItem >
+                            <ListItemIcon sx={{ fontSize: 25 }}>
+                                <FontAwesomeIcon icon={faUserAlt} />
+                            </ListItemIcon>
+                            <ListItemText>
+                                <Link to={`${url}/makeadmin`}><Button sx={{ color: '#757575' }}>Make Admin</Button></Link>
+                            </ListItemText>
+                        </ListItem>
+
+                        {/* // */}
+
+                        <ListItem >
+                            <ListItemIcon sx={{ fontSize: 25 }}>
+                                <FontAwesomeIcon icon={faUserMd} />
+                            </ListItemIcon>
+                            <ListItemText>
+                                <Link to={`${url}/adddoctor`}><Button sx={{ color: '#757575' }}>Add Doctor</Button></Link>
+                            </ListItemText>
+                        </ListItem>
+                    </>
+                }
             </List>
         </div>
     );
@@ -142,6 +161,9 @@ function Dashboard(props) {
                     </Route>
                     <Route path={`${path}/makeadmin`}>
                         <MakeAdmin />
+                    </Route>
+                    <Route path={`${path}/adddoctor`}>
+                        <AddDoctor />
                     </Route>
                 </Switch>
             </Box>

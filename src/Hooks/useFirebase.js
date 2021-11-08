@@ -8,6 +8,7 @@ const useFirebase = () => {
     const [user, setuser] = useState(null);
     const [error, seterror] = useState('');
     const [isLoading, setisLoading] = useState(true);
+    const [isAdmin, setisAdmin] = useState(false);
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();
 
@@ -21,7 +22,6 @@ const useFirebase = () => {
             },
             body: JSON.stringify(userData)
         })
-
     }
     //USER REGISTRATION 
     const userRegistration = (email, Password, userName, history) => {
@@ -59,6 +59,14 @@ const useFirebase = () => {
         setisLoading(true)
         return signInWithEmailAndPassword(auth, email, password)
     }
+
+    //CHECK LOGED IN USER ADMIN OR NOT
+    useEffect(() => {
+        fetch(`http://localhost:5000/users/${user?.uid}`)
+            .then(res => res.json())
+            .then(data => setisAdmin(data?.isAdmin))
+    }, [user?.uid])
+
     //USER SIGN OUT
     const userLogOut = () => {
         signOut(auth)
@@ -85,6 +93,7 @@ const useFirebase = () => {
         setisLoading,
         mongoUpsert,
         isLoading,
+        isAdmin,
         user,
         error
     }
