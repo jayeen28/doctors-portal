@@ -8,6 +8,7 @@ const useFirebase = () => {
     const [user, setuser] = useState(null);
     const [error, seterror] = useState('');
     const [isLoading, setisLoading] = useState(true);
+    const [adminLoading, setadminLoading] = useState(true);
     const [isAdmin, setisAdmin] = useState(false);
     const [token, settoken] = useState(undefined);
     const auth = getAuth();
@@ -63,12 +64,11 @@ const useFirebase = () => {
 
     //CHECK LOGED IN USER ADMIN OR NOT
     useEffect(() => {
-        setisLoading(true)
         fetch(`https://desolate-waters-93213.herokuapp.com/users/${user?.uid}`)
             .then(res => res.json())
             .then(data => {
-                setisAdmin(data?.isAdmin)
-                setisLoading(false);
+                setisAdmin(data?.isAdmin);
+                setadminLoading(false);
             })
     }, [user?.uid])
 
@@ -105,6 +105,7 @@ const useFirebase = () => {
         setisLoading,
         mongoUpsert,
         isLoading,
+        adminLoading,
         token,
         isAdmin,
         user,
