@@ -15,7 +15,7 @@ const Appointments = ({ date }) => {
     const [isLoading, setisLoading] = useState(false);
     useEffect(() => {
         setisLoading(true);
-        fetch(`http://localhost:5000/appointments?uid=${user.uid}&date=${date}`)
+        fetch(`https://desolate-waters-93213.herokuapp.com/appointments?uid=${user.uid}&date=${date}`)
             .then(res => res.json())
             .then(data => {
                 setappointments(data);

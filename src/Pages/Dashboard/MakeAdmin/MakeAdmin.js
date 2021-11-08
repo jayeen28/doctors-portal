@@ -9,7 +9,7 @@ const MakeAdmin = () => {
     const { token } = useAuth();
     const onSubmit = data => {
         setisloading(true);
-        fetch('http://localhost:5000/users/admin', {
+        fetch('https://desolate-waters-93213.herokuapp.com/users/admin', {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json',

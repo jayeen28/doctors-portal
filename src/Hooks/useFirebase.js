@@ -16,7 +16,7 @@ const useFirebase = () => {
     //SEND UPSERT REQUEST TO MONGODB
     const mongoUpsert = (displayName, email, uid) => {
         const userData = { displayName, email, uid };
-        fetch('http://localhost:5000/users', {
+        fetch('https://desolate-waters-93213.herokuapp.com/users', {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'
@@ -63,9 +63,13 @@ const useFirebase = () => {
 
     //CHECK LOGED IN USER ADMIN OR NOT
     useEffect(() => {
-        fetch(`http://localhost:5000/users/${user?.uid}`)
+        setisLoading(true)
+        fetch(`https://desolate-waters-93213.herokuapp.com/users/${user?.uid}`)
             .then(res => res.json())
-            .then(data => setisAdmin(data?.isAdmin))
+            .then(data => {
+                setisAdmin(data?.isAdmin)
+                setisLoading(false);
+            })
     }, [user?.uid])
 
     //USER SIGN OUT

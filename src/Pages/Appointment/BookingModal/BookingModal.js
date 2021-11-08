@@ -30,7 +30,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
         data.appointmentName = name;
         data.patientUid = user.uid;
         //SEND BOOKED DATA TO DATABASE
-        fetch('http://localhost:5000/appointment/book', {
+        fetch('https://desolate-waters-93213.herokuapp.com/appointment/book', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
