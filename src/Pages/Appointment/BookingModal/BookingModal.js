@@ -23,11 +23,12 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
     const { user } = useAuth();
     const { displayName, email } = user;
 
-    const { name, time } = booking;
+    const { name, time, price } = booking;
 
     const { register, handleSubmit, setValue } = useForm();
     const onSubmit = data => {
         data.appointmentName = name;
+        data.price = price;
         data.patientUid = user.uid;
         //SEND BOOKED DATA TO DATABASE
         fetch('https://desolate-waters-93213.herokuapp.com/appointment/book', {
