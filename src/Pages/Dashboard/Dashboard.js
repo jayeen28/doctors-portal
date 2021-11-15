@@ -23,6 +23,7 @@ import { faHome, faUserMd } from '@fortawesome/free-solid-svg-icons';
 import { faUserAlt } from '@fortawesome/free-solid-svg-icons';
 import AddDoctor from './AddDoctor/AddDoctor';
 import AdminRoute from './AdminRoute/AdminRoute';
+import Payment from './Payment/Payment';
 
 const drawerWidth = 240;
 
@@ -159,6 +160,9 @@ function Dashboard(props) {
                 <Switch>
                     <Route exact path={path}>
                         <DashboardHome />
+                    </Route>
+                    <Route path={`${path}/payment/:id`}>
+                        <Payment />
                     </Route>
                     <AdminRoute path={`${path}/makeadmin`}>
                         <MakeAdmin />
