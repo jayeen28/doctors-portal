@@ -15,20 +15,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import useAuth from '../../Hooks/useAuth';
-import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
-import DashboardHome from './DashboardHome/DashboardHome';
-import MakeAdmin from './MakeAdmin/MakeAdmin';
+import { Link, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUserMd } from '@fortawesome/free-solid-svg-icons';
 import { faUserAlt } from '@fortawesome/free-solid-svg-icons';
-import AddDoctor from './AddDoctor/AddDoctor';
-import AdminRoute from './AdminRoute/AdminRoute';
-import Payment from './Payment/Payment';
 
 const drawerWidth = 240;
 
 function Dashboard(props) {
-    let { path, url } = useRouteMatch();
     const { user, userLogOut, isAdmin } = useAuth();
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -49,7 +43,7 @@ function Dashboard(props) {
                         <FontAwesomeIcon icon={faHome} />
                     </ListItemIcon>
                     <ListItemText>
-                        <Link to={`${url}`}><Button sx={{ color: '#757575' }}>Home</Button></Link>
+                        <Link to={`/dashboard`}><Button sx={{ color: '#757575' }}>Home</Button></Link>
                     </ListItemText>
                 </ListItem>
 
@@ -63,7 +57,7 @@ function Dashboard(props) {
                                 <FontAwesomeIcon icon={faUserAlt} />
                             </ListItemIcon>
                             <ListItemText>
-                                <Link to={`${url}/makeadmin`}><Button sx={{ color: '#757575' }}>Make Admin</Button></Link>
+                                <Link to={`/dashboard/makeadmin`}><Button sx={{ color: '#757575' }}>Make Admin</Button></Link>
                             </ListItemText>
                         </ListItem>
 
@@ -74,7 +68,7 @@ function Dashboard(props) {
                                 <FontAwesomeIcon icon={faUserMd} />
                             </ListItemIcon>
                             <ListItemText>
-                                <Link to={`${url}/adddoctor`}><Button sx={{ color: '#757575' }}>Add Doctor</Button></Link>
+                                <Link to={`/dashboard/adddoctor`}><Button sx={{ color: '#757575' }}>Add Doctor</Button></Link>
                             </ListItemText>
                         </ListItem>
                     </>
@@ -157,20 +151,7 @@ function Dashboard(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Switch>
-                    <Route exact path={path}>
-                        <DashboardHome />
-                    </Route>
-                    <Route path={`${path}/payment/:id`}>
-                        <Payment />
-                    </Route>
-                    <AdminRoute path={`${path}/makeadmin`}>
-                        <MakeAdmin />
-                    </AdminRoute>
-                    <AdminRoute path={`${path}/adddoctor`}>
-                        <AddDoctor />
-                    </AdminRoute>
-                </Switch>
+                <Outlet />
             </Box>
         </Box>
     );

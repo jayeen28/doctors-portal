@@ -14,12 +14,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { Link } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Navigation from '../Shared/Navigation/Navigation';
 
 const Login = () => {
     const { userLogin, setuser, seterror, setisLoading, googleLogin, mongoUpsert } = useAuth();
-    const history = useHistory();
+    const navigate = useNavigate();
     const location = useLocation();
     const redirect_uri = location.state?.from || '/';
     const [values, setValues] = React.useState({
@@ -42,7 +42,7 @@ const Login = () => {
         userLogin(data.userEmail, data.userPassword)
             .then(res => {
                 setuser(res.user);
-                history.push(redirect_uri);
+                navigate(redirect_uri);
             })
             .catch(error => seterror(error.message))
             .finally(() => setisLoading(false))
@@ -53,7 +53,7 @@ const Login = () => {
                 setuser(res.user);
                 const { displayName, email, uid } = res.user;
                 mongoUpsert(displayName, email, uid);
-                history.push(redirect_uri);
+                navigate(redirect_uri);
             })
             .catch(error => seterror(error.message))
     }

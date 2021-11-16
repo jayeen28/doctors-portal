@@ -12,14 +12,14 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
 import Navigation from '../Shared/Navigation/Navigation';
 
 const Register = () => {
     const { userRegistration, isLoading, googleLogin, setuser, seterror, mongoUpsert } = useAuth();
     const [errorStatus, seterrorStatus] = useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
     const [values, setValues] = React.useState({
         password: '',
         showPassword: false,
@@ -39,7 +39,7 @@ const Register = () => {
     const onSubmit = data => {
         const { userEmail, userPassword, userConfirmedPass, userName } = data;
         if (userPassword === userConfirmedPass) {
-            userRegistration(userEmail, userPassword, userName, history);
+            userRegistration(userEmail, userPassword, userName, navigate);
             seterrorStatus(false);
         }
         else {
@@ -52,7 +52,7 @@ const Register = () => {
                 setuser(res.user);
                 const { displayName, email, uid } = res.user;
                 mongoUpsert(displayName, email, uid);
-                history.push('/');
+                navigate('/');
             })
             .catch(error => seterror(error.message))
     }
