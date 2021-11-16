@@ -11,7 +11,7 @@ const Checkout = ({ appointment }) => {
     const elements = useElements();
 
     useEffect(() => {
-        fetch('http://localhost:5000/create-payment-intent', {
+        fetch(' https://desolate-waters-93213.herokuapp.com/create-payment-intent', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -71,7 +71,7 @@ const Checkout = ({ appointment }) => {
                 last4: paymentMethod.card.last4,
                 transaction: paymentIntent.client_secret.slice('_secret')[0]
             }
-            fetch(`http://localhost:5000/appointment/${_id}`, {
+            fetch(` https://desolate-waters-93213.herokuapp.com/appointment/${_id}`, {
                 method: 'PUT',
                 headers: {
                     'content-type': 'application/json'
