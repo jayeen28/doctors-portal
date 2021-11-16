@@ -1,0 +1,7 @@
+form.add-doctor-form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+    gap: 20px;
+}

@@ -1,0 +1,11 @@
+.doctor-img img {
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    box-shadow: #5553 0px 0px 6px;
+}
+.doctor-img {
+    height: 100px;
+    width: 100px;
+    margin: auto;
+}
